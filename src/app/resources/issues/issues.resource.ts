@@ -3,14 +3,26 @@ import { HttpClient } from '@angular/common/http';
 
 import { HttpService } from '../../http/services/http.service';
 import { HttpEndpoint } from '../../http/models/http-endpoint';
+import { IAppState } from '../../store';
+import { NgRedux } from '@angular-redux/store';
 
 @Injectable()
 export class IssuesResource extends HttpService {
-
-  constructor(protected $http: HttpClient) {
-  	super($http);
-
-    this.endpoint = new HttpEndpoint('repos/frontendbr/vagas/issues');
+	state: IAppState;
+	
+  constructor(
+		protected $http: HttpClient,
+		private ngRedux: NgRedux<IAppState>
+	) {
+		super($http);
+		this.ngRedux.subscribe(() => this.readState());
+    this.readState();
+	}
+	
+	readState() {
+		this.state = this.ngRedux.getState() as IAppState;
+		
+		this.endpoint = new HttpEndpoint(`repos/${this.state.repo}/vagas/issues`);
   	this.filters = {
   		pages: 1,
   		per_pages: 100

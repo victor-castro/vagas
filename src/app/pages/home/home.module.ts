@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { NgRedux, NgReduxModule } from '@angular-redux/store';
+import { IAppState, rootReducer, INITIAL_STATE } from '../../store';
+
 import { HomePageComponent } from './home-page/home-page/home-page.component';
 import { IssuesResource } from '../../resources/issues/issues.resource';
 import { RepoResource } from '../../resources/repo/repo.resource';
@@ -12,7 +15,8 @@ import { HomeRoutingModule } from './home-routing.module';
   imports: [
     CommonModule,
     HttpModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    NgReduxModule
   ],
   declarations: [HomePageComponent],
   providers: [
@@ -21,4 +25,8 @@ import { HomeRoutingModule } from './home-routing.module';
     JobsService
   ],
 })
-export class HomeModule { }
+export class HomeModule {
+  constructor (ngRedux: NgRedux<IAppState>) {
+      ngRedux.configureStore(rootReducer, INITIAL_STATE);
+  }
+}
