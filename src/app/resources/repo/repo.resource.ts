@@ -8,7 +8,7 @@ import { NgRedux } from '@angular-redux/store';
 
 @Injectable()
 export class RepoResource extends HttpService {
-  state: IAppState;z
+  state: IAppState;
   
   constructor(
     protected $http: HttpClient,
