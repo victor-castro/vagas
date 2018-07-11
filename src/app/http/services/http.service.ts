@@ -1,7 +1,10 @@
+
+import { throwError as observableThrowError, Observable } from 'rxjs';
+
+import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
 
 import { HttpEndpoint } from '../models/http-endpoint'
 
@@ -37,9 +40,9 @@ export class HttpService {
       path = this.endpoint.path + '?' + queryString;
     }
 
-    return this.$http.get(path)
-                .map(this.parseSuccess)
-                .catch(this.parseError);
+    return this.$http.get(path).pipe(
+                map(this.parseSuccess),
+                catchError(this.parseError),);
   }
 
   protected parseSuccess(res: any) {
@@ -50,7 +53,7 @@ export class HttpService {
 
       switch(error.status) {
           case 422:
-              return Observable.throw({ 
+              return observableThrowError({ 
                   status: error.status, 
                   error: 'Erro ao validar os dados.', 
                   fields: error.json() 
@@ -59,7 +62,7 @@ export class HttpService {
           case 400:
               return this.parse400(error);
           case 500:
-              return Observable.throw({ 
+              return observableThrowError({ 
                   status: error.status, 
                   error: 'Oops. Ocorreu um problema inesperado.' 
               });
@@ -72,7 +75,7 @@ export class HttpService {
 
           default:
               console.log(error);
-              return Observable.throw({ 
+              return observableThrowError({ 
                   status: error.status, 
                   error: error.json().error || 'Server error'
               });
@@ -80,21 +83,21 @@ export class HttpService {
   }
   protected parse400(error) : Observable<any> {
       let msg = (error.json().error == 'InvalidCredentials') ? 'Senha incorreta' : error.json().error ;
-      return Observable.throw({ 
+      return observableThrowError({ 
           status: error.status, 
           error: msg
       });
   }
 
   protected parse401(error) : Observable<any> {
-      return Observable.throw({ 
+      return observableThrowError({ 
           status: error.status, 
           error: 'Acesso não autorizado'
       });
   }
 
   protected parse402(error) : Observable<any> {
-      return Observable.throw({ 
+      return observableThrowError({ 
           status: error.status, 
           error: 'Acesso não autorizado'
       });
