@@ -10,13 +10,19 @@ import { RepoResource } from '../../resources/repo/repo.resource';
 import { JobsService } from '../../services/jobs/jobs.service';
 import { HttpModule } from '../../http/http.module';
 import { HomeRoutingModule } from './home-routing.module';
+import { MatButtonModule, MatToolbarModule, MatIconModule, MatCardModule, MatInputModule } from '@angular/material';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpModule,
     HomeRoutingModule,
-    NgReduxModule
+    NgReduxModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatCardModule,
+    MatInputModule
   ],
   declarations: [HomePageComponent],
   providers: [
