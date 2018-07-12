@@ -3,30 +3,17 @@ import { IssuesResource } from '../../resources/issues/issues.resource';
 import { RepoResource } from '../../resources/repo/repo.resource';
 import { RepoEntity } from '../../entities/repo.entity';
 import { IssuesEntity } from '../../entities/issues.entity';
-import { IAppState } from '../../store';
-import { NgRedux } from '@angular-redux/store';
 
 @Injectable()
 export class JobsService {
-  numberPages: number = 100;
+  perPages: number = 100;
   pagesCount: number;
   repo: RepoEntity;
-  state: IAppState;
 
   constructor(
     protected $issueResource: IssuesResource,
     protected $repoResource: RepoResource,
-    private ngRedux: NgRedux<IAppState>
   ) {
-    this.ngRedux.subscribe(() => this.readState());
-    this.readState();
-  }
-
-  readState() {
-    this.state = this.ngRedux.getState() as IAppState;
-
-
-    this.getRepo();
   }
 
   async getRepo():Promise<any> {
@@ -37,15 +24,22 @@ export class JobsService {
   async getIssues(currentPage):Promise<IssuesEntity> {
 
     try {
-      if (currentPage > this.pagesCount) {
-        alert('Fim da lista de vagas!');
-        return;
+
+      await this.getRepo();
+
+
+      if (this.repo.open_issues_count > this.perPages) {
+
+        if (currentPage > this.pagesCount) {
+          alert('Fim da lista de vagas!');
+          return;
+        }
+
+        this.$issueResource.filters = {
+          page: currentPage,
+          per_page: this.perPages
+        };
       }
-  
-      this.$issueResource.filters = {
-        page: currentPage,
-        per_page: this.numberPages
-      };
   
       return await this.$issueResource.load().toPromise();
       
@@ -56,7 +50,7 @@ export class JobsService {
   }
 
   protected _calcPages() {
-    this.pagesCount = this.repo.open_issues_count / this.numberPages;
+    this.pagesCount = this.repo.open_issues_count / this.perPages;
   }
 
 }

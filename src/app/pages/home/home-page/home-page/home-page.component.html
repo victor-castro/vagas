@@ -3,36 +3,27 @@
 </mat-toolbar>
 
 
-<form class="example-form ">
-  <div class="alt">
-      <mat-form-field class="example-full-width">
-          <input matInput placeholder="Favorite food" value="Sushi">
-        </mat-form-field>
-        <button mat-raised-button color="accent">LIKE</button>
-  </div>
- 
+<main class="main-content">
+<form>
+    <mat-form-field>
+      <mat-select placeholder="Select the Job" (selectionChange)="selectJob()" [(ngModel)]="selectedValue" name="job">
+        <mat-option *ngFor="let job of selectJobs" [value]="job.value">
+          {{job.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
 
-  <mat-form-field class="example-full-width">
-    <textarea matInput placeholder="Leave a comment"></textarea>
-  </mat-form-field>
-</form>
+  <mat-list *ngIf="!loading">
+    <ng-container *ngFor="let job of jobs">
+      <mat-list-item >
+        <h3 matLine> {{ job.title }} </h3>
+        <p matLine> aberta em: {{ job.created_at | date: 'dd/MM/yyyy' }} </p>
+        <p matLine> #{{job.number}} </p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </ng-container>
+  </mat-list>
 
-  <mat-card class="example-card">
-    <mat-card-header>
-      <div mat-card-avatar class="example-header-image"></div>
-      <mat-card-title>Shiba Inu</mat-card-title>
-      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-    <mat-card-content>
-      <p>
-        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-        bred for hunting.
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="accent">LIKE</button>
-      <button mat-raised-button color="accent">SHARE</button>
-    </mat-card-actions>
-  </mat-card>
+  <mat-spinner *ngIf="loading"></mat-spinner>
+</main>

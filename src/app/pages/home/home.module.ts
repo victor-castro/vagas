@@ -10,19 +10,24 @@ import { RepoResource } from '../../resources/repo/repo.resource';
 import { JobsService } from '../../services/jobs/jobs.service';
 import { HttpModule } from '../../http/http.module';
 import { HomeRoutingModule } from './home-routing.module';
-import { MatButtonModule, MatToolbarModule, MatIconModule, MatCardModule, MatInputModule } from '@angular/material';
+import { MatButtonModule, MatToolbarModule, MatIconModule, MatCardModule, MatInputModule, MatListModule, MatSelectModule, MatSpinner, MatProgressSpinnerModule } from '@angular/material';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpModule,
     HomeRoutingModule,
+    FormsModule,
     NgReduxModule,
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
     MatCardModule,
-    MatInputModule
+    MatInputModule,
+    MatListModule,
+    MatSelectModule,
+    MatProgressSpinnerModule
   ],
   declarations: [HomePageComponent],
   providers: [

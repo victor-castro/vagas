@@ -13,6 +13,9 @@ import { SET_REPO } from '../../../../actions';
 })
 export class HomePageComponent implements OnInit {
   jobs: IssuesEntity;
+  selectJobs;
+  selectedValue: string;
+  loading = false;
 
   constructor(
     private $jobs: JobsService,
@@ -20,33 +23,41 @@ export class HomePageComponent implements OnInit {
   ) {
     this.ngRedux.subscribe(() => this.readState());
     this.readState();
+
+    this.selectJobs = [
+      { value: JobsType.frontEnd, viewValue: 'Front-End' },
+      { value: JobsType.backEnd, viewValue: 'Back-End' },
+      { value: JobsType.php, viewValue: 'PHP' },
+      { value: JobsType.ios, viewValue: 'IOS' },
+      { value: JobsType.android, viewValue: 'Android' }
+    ]
   }
 
   ngOnInit() {
-    // Teste de troca de repositorio
-    setTimeout(() => {
-      this.ngRedux.dispatch({ type: SET_REPO, repo: JobsType.backEnd })
-    }, 3000);
   }
 
   getJobs() {
+    this.loading = true; 
+
     this.$jobs.getIssues(1)
       .then(
         jobs => {
-          this.jobs = jobs,
-          console.log(this.jobs);
-          
+          this.jobs = jobs;
+          this.loading = false; 
         },
-        rejected => console.error(rejected)
+        rejected => {
+          console.error(rejected);
+          this.loading = false; 
+        }
       );
   }
 
+  selectJob() {
+    this.ngRedux.dispatch({ type: SET_REPO, repo: this.selectedValue })
+  }
+
   readState() {
-    const state: IAppState = this.ngRedux.getState() as IAppState;
-
     this.getJobs();
-
-    console.log(state);
   }
 
 }
