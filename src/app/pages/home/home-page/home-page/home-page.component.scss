@@ -1,23 +1,41 @@
 @import '~@angular/material/theming';
 
 .main-content {
-    margin-top: 80px;
+  margin-top: 80px;
+  position: relative;
+  min-height: 50vh;
+
+  .select-job {
+    padding: 1rem 0;
+  }
+
+  .mat-form-field { width: 100%; }
+
+  .mat-spinner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+  }
+
+  .mat-list {
     position: relative;
-    min-height: 50vh;
+    background-color: #fff;
 
-    form {
-        padding: 0 2rem;
-        .mat-form-field { width: 100%; }
+    &:before {
+      bottom: 0;
+      box-shadow: 0 -1px 0 #e0e0e0, 0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24);
+      content: '';
+      display: block;
+      left: 0;
+      pointer-events: none;
+      position: absolute;
+      right: 0;
+      top: 0;
     }
-
-    .mat-spinner {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        top: 0;
-        margin: auto;
-    }
+  }
 }
 
 .mat-toolbar {

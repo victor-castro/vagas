@@ -27,7 +27,6 @@ export class JobsService {
 
       await this.getRepo();
 
-
       if (this.repo.open_issues_count > this.perPages) {
 
         if (currentPage > this.pagesCount) {

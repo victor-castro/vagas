@@ -1,5 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
-body { margin: 0; }
+body { 
+  margin: 0;
+  background-color: #e8e8e8;
+}
 
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+.container { 
+  max-width: 870px; 
+  margin: 0 auto;
+}

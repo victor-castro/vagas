@@ -4,26 +4,33 @@
 
 
 <main class="main-content">
-<form>
-    <mat-form-field>
-      <mat-select placeholder="Select the Job" (selectionChange)="selectJob()" [(ngModel)]="selectedValue" name="job">
-        <mat-option *ngFor="let job of selectJobs" [value]="job.value">
-          {{job.viewValue}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </form>
+  <div class="container">
+    
 
-  <mat-list *ngIf="!loading">
-    <ng-container *ngFor="let job of jobs">
-      <mat-list-item >
-        <h3 matLine> {{ job.title }} </h3>
-        <p matLine> aberta em: {{ job.created_at | date: 'dd/MM/yyyy' }} </p>
-        <p matLine> #{{job.number}} </p>
+    <mat-list>
+      <mat-list-item class="select-job">
+        <mat-form-field>
+          <mat-select placeholder="Select the Job" (selectionChange)="selectJob()" [(ngModel)]="selectedValue" name="job">
+            <mat-option *ngFor="let job of selectJobs" [value]="job.value">
+              {{job.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </mat-list-item>
       <mat-divider></mat-divider>
-    </ng-container>
-  </mat-list>
+
+      <ng-container *ngIf="!loading">
+        <ng-container *ngFor="let job of jobs">
+          <mat-list-item>
+            <h3 matLine> {{ job.title }} </h3>
+            <p matLine> aberta em: {{ job.created_at | date: 'dd/MM/yyyy' }} </p>
+            <p matLine> #{{job.number}} </p>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </ng-container>
+      </ng-container>
+    </mat-list>
+  </div>
 
   <mat-spinner *ngIf="loading"></mat-spinner>
 </main>
