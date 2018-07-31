@@ -13,6 +13,8 @@ import { HomeRoutingModule } from './home-routing.module';
 import { MatButtonModule, MatToolbarModule, MatIconModule, MatCardModule, MatInputModule, MatListModule, MatSelectModule, MatSpinner, MatProgressSpinnerModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 
+import { GraphqlModule } from '../../graphql/graphql.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     MatListModule,
     MatSelectModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    GraphqlModule
   ],
   declarations: [HomePageComponent],
   providers: [
